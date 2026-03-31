@@ -617,6 +617,39 @@
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+  /* BACKUP / RESTORE */
+  .backup-bar {
+    margin-top: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .backup-bar-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .backup-bar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .backup-hint {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+  #restoreFileInput { display: none; }
 </style>
 </head>
 <body>
@@ -624,9 +657,6 @@
 <header>
   <div class="logo">DOOMSCROLL</div>
   <nav>
-    <a href="#">Org Chart</a>
-    <a href="#">Availability</a>
-    <a href="#">Who's Working</a>
     <a href="#" class="active">Contact Directory</a>
   </nav>
 </header>
@@ -718,9 +748,21 @@
     </div>
   </div>
 
-  <div class="receipt-notice">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-    <span>Forward receipts/FYIs to: <a href="mailto:ds-receipts-aaaattd4jkubopealwjbqdbsoy@cinforactors.slack.com">ds-receipts Slack</a> · posts to #ds-receipts</span>
+
+  <!-- BACKUP / RESTORE -->
+  <div class="backup-bar">
+    <span class="backup-bar-label">💾 Crew Data</span>
+    <div class="backup-bar-divider"></div>
+    <button class="btn btn-ghost btn-sm" onclick="backupData()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Backup Data
+    </button>
+    <button class="btn btn-ghost btn-sm" onclick="document.getElementById('restoreFileInput').click()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Restore Data
+    </button>
+    <input type="file" id="restoreFileInput" accept=".json" onchange="restoreData(event)">
+    <span class="backup-hint">Backup saves a .json file · Restore loads one back in</span>
   </div>
 
 </div>
@@ -859,7 +901,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const STORAGE_KEY = 'doomscroll_contacts_v1';
@@ -869,35 +911,35 @@ const DEFAULT_CREW = [
   { id: 2, firstName: 'Indeana', lastName: 'Underhill', nickname: '', pronouns: '', role: 'Producer & DP — Creative, Technical & Operations', dept: 'core', reportsTo: '', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
   { id: 3, firstName: 'Haeleigh', lastName: 'Royall', nickname: '', pronouns: '', role: 'Producer — Business, Budget & Casting', dept: 'core', reportsTo: '', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
   { id: 4, firstName: 'Giovanni', lastName: 'Labadessa', nickname: 'Gio', pronouns: '', role: 'Producer — Scheduling & Production Logistics', dept: 'core', reportsTo: '', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 5, firstName: 'Alexander', lastName: 'Schwartz', nickname: '', pronouns: 'he/him', role: "Director's Assistant / Key Liaison", dept: 'mikey', reportsTo: 'Mikey', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 6, firstName: 'Aaliyah', lastName: 'Hermansyah', nickname: '', pronouns: 'she/her', role: 'Production Designer', dept: 'mikey', reportsTo: 'Mikey', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
+  { id: 5, firstName: 'Alexander', lastName: 'Schwartz', nickname: '', pronouns: 'he/him', role: "Director's Assistant / Key Liaison", dept: 'mikey', reportsTo: 'Mikey', phone: '(530) 519-0228', phone2: '', email: 'alexanderschwartz.artist@gmail.com', email2: 'aschwa30@student.scad.edu', ecName: 'Rebecca Hury', ecRel: 'Wife', ecPhone: '(214) 563-1595', ecPhone2: '', ecEmail: 'rebecca.huey1@gmail.com', notes: 'Pescatarian. Pre-existing medical conditions (self-managed).' },
+  { id: 6, firstName: 'Aaliyah', lastName: 'Hermansyah', nickname: '', pronouns: 'she/her', role: 'Production Designer', dept: 'mikey', reportsTo: 'Mikey', phone: '(973) 549-8406', phone2: '', email: 'aaliyah.hcreative@gmail.com', email2: 'aherma23@student.scad.edu', ecName: 'Febie Hermansyah', ecRel: 'Mother', ecPhone: '(201) 895-9666', ecPhone2: '', ecEmail: 'febie.hermansyah@gmail.com', notes: 'Cannot eat pork. Flexible schedule — can adapt to dept heads as needed.' },
   { id: 7, firstName: 'Mia', lastName: 'Barnett', nickname: '', pronouns: '', role: 'Supervising Art Director', dept: 'mikey', reportsTo: 'Aaliyah Hermansyah', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 8, firstName: 'Anisha', lastName: 'Yadav', nickname: '', pronouns: 'she/her', role: 'Art Director', dept: 'mikey', reportsTo: 'Aaliyah Hermansyah', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 9, firstName: 'Aynsley', lastName: 'Prewitt', nickname: '', pronouns: 'she/her', role: 'Art Director', dept: 'mikey', reportsTo: 'Aaliyah Hermansyah', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Pre-pro only' },
-  { id: 10, firstName: 'Ashton', lastName: 'Sarandrea', nickname: '', pronouns: 'he/him', role: 'Set Designer & Drafter', dept: 'mikey', reportsTo: 'Aaliyah Hermansyah', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Summer poss.' },
-  { id: 11, firstName: 'Libby', lastName: 'Brown', nickname: '', pronouns: 'she/her', role: 'Prop Master', dept: 'mikey', reportsTo: 'Aaliyah Hermansyah', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 12, firstName: 'Rylee', lastName: 'Oyler', nickname: '', pronouns: 'she/her', role: 'Art Dept PA', dept: 'mikey', reportsTo: 'Libby Brown', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Summer poss.' },
-  { id: 13, firstName: 'Amberly', lastName: 'Uceta', nickname: '', pronouns: 'she/her', role: 'Asst Costume Designer', dept: 'mikey', reportsTo: 'Mikey', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 14, firstName: 'Lola', lastName: 'Dulovic', nickname: '', pronouns: 'she/her', role: 'Assistant Costume Designer', dept: 'mikey', reportsTo: 'Mikey', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 15, firstName: 'Alexander', lastName: 'Coto Torres', nickname: '', pronouns: '', role: 'VFX Coordinator', dept: 'mikey', reportsTo: 'Mikey / Inde', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Also reports to Inde' },
-  { id: 16, firstName: 'Isabella', lastName: 'Lenchik', nickname: '', pronouns: 'she/her', role: "Writer's Assistant", dept: 'mikey', reportsTo: 'Mikey', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 17, firstName: 'Albert', lastName: 'Koenig', nickname: '', pronouns: 'he/him', role: 'Location Manager', dept: 'mikey', reportsTo: 'Mikey / Inde', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Also reports to Inde' },
-  { id: 18, firstName: 'Davis', lastName: 'Ohman', nickname: '', pronouns: 'he/him', role: 'Assistant Location Manager', dept: 'mikey', reportsTo: 'Albert Koenig', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 19, firstName: 'Bella', lastName: 'Bloom', nickname: '', pronouns: 'she/her', role: 'Assistant to the Producer / Asst LP', dept: 'inde', reportsTo: 'Inde / Izzy / Haeleigh', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Also Asst LP under Izzy/Haeleigh' },
-  { id: 20, firstName: 'Sophia', lastName: 'Reid', nickname: '', pronouns: '', role: 'Technical Coordinator — Logistics & Scheduling', dept: 'inde', reportsTo: 'Inde', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 21, firstName: 'Nelli', lastName: 'Safina', nickname: '', pronouns: 'she/her', role: 'Junior Cinematographer — Creative Lead', dept: 'inde', reportsTo: 'Inde', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 22, firstName: 'Miki Grace', lastName: 'Lustenberg', nickname: '', pronouns: 'she/her', role: 'Assistant Camera', dept: 'inde', reportsTo: 'Nelli Safina', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
+  { id: 8, firstName: 'Anisha', lastName: 'Yadav', nickname: '', pronouns: 'she/her', role: 'Art Director', dept: 'mikey', reportsTo: 'Aaliyah Hermansyah', phone: '(912) 703-8132', phone2: '', email: 'yadavanisha18@gmail.com', email2: 'ayadav22@student.scad.edu', ecName: 'Sumit Yadav', ecRel: 'Uncle', ecPhone: '(317) 919-8765', ecPhone2: '', ecEmail: 'yadav_sumit17@yahoo.com', notes: 'Vegetarian.' },
+  { id: 9, firstName: 'Aynsley', lastName: 'Prewitt', nickname: '', pronouns: 'she/her', role: 'Art Director', dept: 'mikey', reportsTo: 'Aaliyah Hermansyah', phone: '(972) 571-5159', phone2: '', email: 'aprewi20@student.scad.edu', email2: '', ecName: 'Paul Prewitt', ecRel: 'Father', ecPhone: '(682) 232-6666', ecPhone2: '', ecEmail: 'rppa1812@me.com', notes: 'Pre-pro only' },
+  { id: 10, firstName: 'Ashton', lastName: 'Sarandrea', nickname: '', pronouns: 'he/him', role: 'Set Designer & Drafter', dept: 'mikey', reportsTo: 'Aaliyah Hermansyah', phone: '(203) 343-4396', phone2: '', email: 'ashsarandrea@gmail.com', email2: 'asaran20@student.scad.edu', ecName: 'Patricia Beaulieu', ecRel: 'Mother', ecPhone: '(941) 266-6469', ecPhone2: '', ecEmail: 'beautifulplaceorg@gmail.com', notes: 'Summer poss.' },
+  { id: 11, firstName: 'Libby', lastName: 'Brown', nickname: '', pronouns: 'she/her', role: 'Prop Master', dept: 'mikey', reportsTo: 'Aaliyah Hermansyah', phone: '(603) 573-1188', phone2: '', email: 'libbybrown1817@gmail.com', email2: 'ebrown39@student.scad.edu', ecName: 'Kerri Brown', ecRel: 'Mom', ecPhone: '(603) 608-8310', ecPhone2: '', ecEmail: 'murpbrown@comcast.net', notes: '' },
+  { id: 12, firstName: 'Rylee', lastName: 'Oyler', nickname: '', pronouns: 'she/her', role: 'Art Dept PA', dept: 'mikey', reportsTo: 'Libby Brown', phone: '(478) 363-3030', phone2: '', email: 'rylee@roproductiondesign.com', email2: 'royler20@student.scad.edu', ecName: 'Donnan Oyler', ecRel: 'Father', ecPhone: '(478) 288-6523', ecPhone2: '', ecEmail: 'donnan.oyler@gmail.com', notes: 'Summer poss.' },
+  { id: 13, firstName: 'Amberly', lastName: 'Uceta', nickname: '', pronouns: 'she/her', role: 'Asst Costume Designer', dept: 'mikey', reportsTo: 'Mikey', phone: '(786) 510-3615', phone2: '', email: 'ucetaamberly@gmail.com', email2: 'auceta20@student.scad.edu', ecName: 'Amber Huisenga', ecRel: 'Friend', ecPhone: '(571) 577-3954', ecPhone2: '', ecEmail: '', notes: 'Lactose intolerant. Heavily allergic to pollen.' },
+  { id: 14, firstName: 'Lola', lastName: 'Dulovic', nickname: '', pronouns: 'she/her', role: 'Assistant Costume Designer', dept: 'mikey', reportsTo: 'Mikey', phone: '(912) 220-2706', phone2: '', email: 'lola@dulovic.com', email2: 'ldulov20@student.scad.edu', ecName: 'Paige Stephens', ecRel: 'Roommate', ecPhone: '(419) 967-1098', ecPhone2: '', ecEmail: '', notes: '' },
+  { id: 15, firstName: 'Alexander', lastName: 'Coto Torres', nickname: '', pronouns: 'he/him', role: 'VFX Coordinator', dept: 'mikey', reportsTo: 'Mikey / Inde', phone: '(787) 709-8419', phone2: '', email: 'AlexanderCot2005@gmail.com', email2: 'acotot20@student.scad.edu', ecName: 'Virgenmina Torres Rosario', ecRel: 'Mother', ecPhone: '(787) 298-3943', ecPhone2: '', ecEmail: 'vitorres@gmail.com', notes: 'Also reports to Inde' },
+  { id: 16, firstName: 'Isabella', lastName: 'Lenchik', nickname: '', pronouns: 'she/her', role: "Writer's Assistant", dept: 'mikey', reportsTo: 'Mikey', phone: '(336) 775-7759', phone2: '', email: 'isabellalenchik@gmail.com', email2: 'ilench20@student.scad.edu', ecName: 'Jennifer Lenchik', ecRel: 'Mother', ecPhone: '(336) 692-4552', ecPhone2: '', ecEmail: 'jennylenchik@gmail.com', notes: 'Vegetarian. May 4th is her birthday — prefers to shift hours to Friday that week.' },
+  { id: 17, firstName: 'Albert', lastName: 'Koenig', nickname: '', pronouns: 'he/him', role: 'Location Manager', dept: 'mikey', reportsTo: 'Mikey / Inde', phone: '(615) 589-1950', phone2: '', email: 'akoeni21@student.scad.edu', email2: '', ecName: 'Alan Koenig', ecRel: 'Father', ecPhone: '(615) 972-1600', ecPhone2: '', ecEmail: 'alan@ask4ent.com', notes: 'Also reports to Inde' },
+  { id: 18, firstName: 'Davis', lastName: 'Ohman', nickname: '', pronouns: 'he/him', role: 'Assistant Location Manager', dept: 'mikey', reportsTo: 'Albert Koenig', phone: '(208) 350-0212', phone2: '', email: 'dohman20@student.scad.edu', email2: '', ecName: 'Edelene Ohman', ecRel: 'Mother', ecPhone: '(208) 921-1381', ecPhone2: '', ecEmail: 'edeleneo@gmail.com', notes: 'Lactose intolerant.' },
+  { id: 19, firstName: 'Bella', lastName: 'Bloom', nickname: '', pronouns: 'she/her', role: 'Assistant to the Producer / Asst LP', dept: 'inde', reportsTo: 'Inde / Izzy / Haeleigh', phone: '(571) 329-8513', phone2: '', email: 'isabelladbloom06@gmail.com', email2: 'ibloom20@student.scad.edu', ecName: 'Jacquie Bloom', ecRel: 'Mother', ecPhone: '(703) 501-6810', ecPhone2: '', ecEmail: '', notes: 'Also Asst LP under Izzy/Haeleigh' },
+  { id: 20, firstName: 'Sophia', lastName: 'Reid', nickname: '', pronouns: 'she/her', role: 'Technical Coordinator — Logistics & Scheduling', dept: 'inde', reportsTo: 'Inde', phone: '(404) 783-2074', phone2: '', email: 'sophialreid4@gmail.com', email2: 'soreid20@student.scad.edu', ecName: 'Anthony Reid', ecRel: 'Father', ecPhone: '(404) 386-4507', ecPhone2: '', ecEmail: '', notes: '' },
+  { id: 21, firstName: 'Nelli', lastName: 'Safina', nickname: '', pronouns: 'she/her', role: 'Junior Cinematographer — Creative Lead', dept: 'inde', reportsTo: 'Inde', phone: '(213) 667-1333', phone2: '', email: 'nelliesafina@gmail.com', email2: 'nsafin20@student.scad.edu', ecName: 'Blaise Reilly', ecRel: 'Friend', ecPhone: '(910) 548-2678', ecPhone2: '', ecEmail: 'breill22@student.scad.edu', notes: '' },
+  { id: 22, firstName: 'Miki Grace', lastName: 'Lustenberg', nickname: '', pronouns: 'she/her', role: 'Assistant Camera', dept: 'inde', reportsTo: 'Nelli Safina', phone: '(859) 912-4852', phone2: '', email: 'connect@mikigracefilms.com', email2: 'mluste20@student.scad.edu', ecName: 'Michelle Lustenberg', ecRel: 'Mother', ecPhone: '(859) 512-7338', ecPhone2: '', ecEmail: 'mlustenberg@yahoo.com', notes: 'Type 1 Diabetic.' },
   { id: 23, firstName: 'Ava', lastName: 'Briody', nickname: '', pronouns: '', role: 'Pre-Production Gaffer', dept: 'inde', reportsTo: 'Inde', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 24, firstName: 'Riley', lastName: 'Walsh', nickname: '', pronouns: 'he/him', role: 'Camera PA', dept: 'inde', reportsTo: 'Inde', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 25, firstName: 'Izzy', lastName: 'Fontaine', nickname: '', pronouns: 'they/them', role: 'Line Producer', dept: 'inde', reportsTo: 'Inde / Haeleigh', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Also reports to Haeleigh' },
-  { id: 26, firstName: 'Vicky', lastName: 'Seegott', nickname: '', pronouns: 'she/her', role: 'Assistant to the Producer / Casting Coordinator', dept: 'haeleigh', reportsTo: 'Haeleigh', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 27, firstName: 'Raphaelle', lastName: 'Laluyaux', nickname: '', pronouns: 'she/her', role: 'Casting Director', dept: 'haeleigh', reportsTo: 'Haeleigh', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 28, firstName: 'Maia', lastName: 'Finlayson', nickname: '', pronouns: 'she/her', role: 'Office PA', dept: 'haeleigh', reportsTo: 'Haeleigh / Andrew Edwards', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Also reports to Andrew Edwards' },
-  { id: 29, firstName: 'Quinn', lastName: 'Robinson', nickname: '', pronouns: 'she/her', role: "Producer's Assistant", dept: 'gio', reportsTo: 'Gio', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Supports Amira & Daniel' },
-  { id: 30, firstName: 'Amira', lastName: 'Kopeyeva', nickname: '', pronouns: 'she/her', role: '1st Assistant Director', dept: 'gio', reportsTo: 'Gio', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: 'Summer TBD' },
-  { id: 31, firstName: 'Andrew', lastName: 'Edwards', nickname: '', pronouns: 'he/him', role: '2nd Assistant Director', dept: 'gio', reportsTo: 'Gio', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 32, firstName: 'K', lastName: 'Hilaire', nickname: '', pronouns: 'she/her', role: 'Production Office Coordinator', dept: 'gio', reportsTo: 'Gio', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
-  { id: 33, firstName: 'Daniel', lastName: 'Wigley', nickname: '', pronouns: 'he/him', role: 'Distribution Coordinator', dept: 'gio', reportsTo: 'Gio', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
+  { id: 24, firstName: 'Riley', lastName: 'Walsh', nickname: '', pronouns: 'he/him', role: 'Camera PA', dept: 'inde', reportsTo: 'Inde', phone: '(954) 261-4545', phone2: '', email: 'walshriley2007@gmail.com', email2: 'rwalsh22@student.scad.edu', ecName: 'Chris Walsh', ecRel: 'Father', ecPhone: '(954) 292-4507', ecPhone2: '', ecEmail: 'cwgator@comcast.net', notes: 'No car — transport by bus, bike, or carpool.' },
+  { id: 25, firstName: 'Izzy', lastName: 'Fontaine', nickname: '', pronouns: 'they/them', role: 'Line Producer', dept: 'inde', reportsTo: 'Inde / Haeleigh', phone: '(512) 945-0848', phone2: '', email: 'isabelle.christine.fontaine@gmail.com', email2: 'ifonta20@student.scad.edu', ecName: 'Julia Bennett', ecRel: 'Roommate', ecPhone: '(610) 766-2322', ecPhone2: '', ecEmail: 'jbenne32@student.scad.edu', notes: 'Also reports to Haeleigh' },
+  { id: 26, firstName: 'Vicky', lastName: 'Seegott', nickname: '', pronouns: 'she/her', role: 'Assistant to the Producer / Casting Coordinator', dept: 'haeleigh', reportsTo: 'Haeleigh', phone: '(772) 224-6825', phone2: '', email: 'victoriaseegott@gmail.com', email2: 'vseego20@student.scad.edu', ecName: 'Olga Sigott', ecRel: 'Mother', ecPhone: '(772) 333-4957', ecPhone2: '', ecEmail: 'violvia75@yahoo.com', notes: 'Allergies: mosquitos, gnats, fire ants, and Albuterol.' },
+  { id: 27, firstName: 'Raphaelle', lastName: 'Laluyaux', nickname: '', pronouns: 'she/her', role: 'Casting Director', dept: 'haeleigh', reportsTo: 'Haeleigh', phone: '(415) 533-1059', phone2: '', email: 'raphilaluyaux@gmail.com', email2: 'rlaluy20@student.scad.edu', ecName: 'Elizabeth Laluyaux', ecRel: 'Mother', ecPhone: '(404) 822-5851', ecPhone2: '', ecEmail: 'lizlaluyaux@gmail.com', notes: 'Will not be on set — graduating this term.' },
+  { id: 28, firstName: 'Maia', lastName: 'Finlayson', nickname: '', pronouns: 'she/her', role: 'Office PA', dept: 'haeleigh', reportsTo: 'Haeleigh / Andrew Edwards', phone: '(443) 808-7755', phone2: '', email: 'maia.finlayson@gmail.com', email2: 'mfinla20@student.scad.edu', ecName: 'Sophia Linares', ecRel: 'Roommate', ecPhone: '(303) 908-9679', ecPhone2: '', ecEmail: 'sophialinares3314@gmail.com', notes: 'Also reports to Andrew Edwards' },
+  { id: 29, firstName: 'Quinn', lastName: 'Robinson', nickname: '', pronouns: 'she/her', role: "Producer's Assistant", dept: 'gio', reportsTo: 'Gio', phone: '(513) 833-1436', phone2: '', email: 'quinngrobinson@gmail.com', email2: 'qrobin20@student.scad.edu', ecName: 'Vikki Robinson', ecRel: 'Mother', ecPhone: '(513) 484-6099', ecPhone2: '', ecEmail: 'vikkirobinson@cinci.rr.com', notes: 'Supports Amira & Daniel' },
+  { id: 30, firstName: 'Amira', lastName: 'Kopeyeva', nickname: '', pronouns: 'she/her', role: '1st Assistant Director', dept: 'gio', reportsTo: 'Gio', phone: '(747) 998-7553', phone2: '', email: 'akopey20@student.scad.edu', email2: '', ecName: 'Daniel Grant Harrell', ecRel: 'Partner', ecPhone: '(251) 401-6232', ecPhone2: '', ecEmail: 'grantharrell79001@gmail.com', notes: 'Summer TBD' },
+  { id: 31, firstName: 'Andrew', lastName: 'Edwards', nickname: '', pronouns: 'he/him', role: '2nd Assistant Director', dept: 'gio', reportsTo: 'Gio', phone: '(708) 465-0225', phone2: '', email: 'graphicdesignandrew@gmail.com', email2: 'aedwar46@student.scad.edu', ecName: 'Banan Flynn', ecRel: 'Roommate', ecPhone: '(201) 968-8819', ecPhone2: '', ecEmail: '', notes: '' },
+  { id: 32, firstName: 'K', lastName: 'Hilaire', nickname: '', pronouns: 'she/her', role: 'Production Office Coordinator', dept: 'gio', reportsTo: 'Gio', phone: '(781) 475-6273', phone2: '', email: 'kfilmsh@gmail.com', email2: 'khilai20@student.scad.edu', ecName: 'Doris Blige', ecRel: 'Family', ecPhone: '(912) 272-3055', ecPhone2: '', ecEmail: '', notes: 'Part-time job — set predictable hours. Capstone shoot May 3–5.' },
+  { id: 33, firstName: 'Daniel', lastName: 'Wigley', nickname: '', pronouns: 'he/him', role: 'Distribution Coordinator', dept: 'gio', reportsTo: 'Gio', phone: '(386) 843-0023', phone2: '', email: 'dwigle20@student.scad.edu', email2: '', ecName: 'Allie Mosley', ecRel: 'Fiancée', ecPhone: '(808) 419-0754', ecPhone2: '', ecEmail: 'allo.mosley@gmail.com', notes: '' },
 ];
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
@@ -1166,14 +1208,53 @@ function exportCSV() {
   document.getElementById('exportPanel').classList.remove('open');
 }
 
+
+// ── BACKUP / RESTORE ──────────────────────────────────────────────────────────
+
+function backupData() {
+  const payload = JSON.stringify({ crew, nextId }, null, 2);
+  const blob = new Blob([payload], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const date = new Date().toISOString().slice(0,10);
+  a.download = `doomscroll-crew-backup-${date}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function restoreData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (!Array.isArray(parsed.crew)) throw new Error('Invalid backup format');
+      if (!confirm(`Restore ${parsed.crew.length} crew member(s) from backup? This will replace current data.`)) return;
+      crew = parsed.crew;
+      nextId = parsed.nextId || 100;
+      saveData();
+      render();
+      alert('✓ Crew data restored successfully.');
+    } catch(err) {
+      alert('Could not restore: ' + err.message + '\nMake sure you selected a valid DoomScroll backup file.');
+    }
+  };
+  reader.readAsText(file);
+  // reset input so same file can be re-selected
+  event.target.value = '';
+}
+
 // ── KEYBOARD ──────────────────────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
 });
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
+// ── INIT ──────────────────────
 loadData();
 render();
+
 </script>
 </body>
 </html>
