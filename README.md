@@ -1,4 +1,3 @@
-[doomscroll-contacts.html](https://github.com/user-attachments/files/26387844/doomscroll-contacts.html)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -904,7 +903,7 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
-const STORAGE_KEY = 'doomscroll_contacts_v1';
+const STORAGE_KEY = 'doomscroll_contacts_v2';
 
 const DEFAULT_CREW = [
   { id: 1, firstName: 'John Michael', lastName: 'Riva Jr.', nickname: 'Mikey', pronouns: '', role: 'Writer / Director', dept: 'core', reportsTo: '', phone: '', phone2: '', email: '', email2: '', ecName: '', ecRel: '', ecPhone: '', ecPhone2: '', ecEmail: '', notes: '' },
