@@ -1,4 +1,3 @@
-file:///Users/kerrhiahilaire/Downloads/doomscroll-contacts-updated_4.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
